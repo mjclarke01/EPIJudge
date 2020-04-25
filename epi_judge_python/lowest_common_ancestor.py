@@ -5,16 +5,18 @@ from test_framework.binary_tree_utils import must_find_node, strip_parent_link
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
+from collections import deque
+
 
 def lca(tree, node0, node1):
     def _traverse(node, path, ans):
         path.append(node)
 
         if node == node0:
-            ans[0] = path[:]
+            ans[0] = path.copy()
 
         if node == node1:
-            ans[1] = path[:]
+            ans[1] = path.copy()
 
         if ans[0] and ans[1]:
             prev = 0
@@ -26,20 +28,41 @@ def lca(tree, node0, node1):
             return ans[0][prev]
 
         if node.left:
-            result = _traverse(node.left, path[:], ans)
+            result = _traverse(node.left, path, ans)
             if result:
                 return result
 
         if node.right:
-            result = _traverse(node.right, path[:], ans)
+            result = _traverse(node.right, path, ans)
             if result:
                 return result
+        path.pop()
+        return None
+
+    # if node0 == node1:
+    #     return node0
+    return _traverse(tree, deque(), [None, None])
+
+
+# Try post-order traversal
+def lca(tree, node0, node1):
+    def _traverse(root):
+        if root == node0 or root == node1:
+            return root
+
+        l_ans = _traverse(root.left) if root.left else None
+        r_ans = _traverse(root.right) if root.right else None
+
+        if l_ans and r_ans:
+            return root
+        elif l_ans:
+            return l_ans
+        elif r_ans:
+            return r_ans
 
         return None
 
-    if node0 == node1:
-        return node0
-    return _traverse(tree, [], [None, None])
+    return _traverse(tree)
 
 
 @enable_executor_hook
