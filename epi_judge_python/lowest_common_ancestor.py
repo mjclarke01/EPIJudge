@@ -7,8 +7,39 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def lca(tree, node0, node1):
-    # TODO - you fill in here.
-    return None
+    def _traverse(node, path, ans):
+        path.append(node)
+
+        if node == node0:
+            ans[0] = path[:]
+
+        if node == node1:
+            ans[1] = path[:]
+
+        if ans[0] and ans[1]:
+            prev = 0
+            for i, (a,b) in enumerate(zip(ans[0], ans[1])):
+                if a != b:
+                    break
+                prev = i
+
+            return ans[0][prev]
+
+        if node.left:
+            result = _traverse(node.left, path[:], ans)
+            if result:
+                return result
+
+        if node.right:
+            result = _traverse(node.right, path[:], ans)
+            if result:
+                return result
+
+        return None
+
+    if node0 == node1:
+        return node0
+    return _traverse(tree, [], [None, None])
 
 
 @enable_executor_hook
