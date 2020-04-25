@@ -17,16 +17,17 @@ def lca(node0, node1):
     n0d = find_depth(node0)
     n1d = find_depth(node1)
 
-    while n0d > n1d:
-        node0 = node0.parent
-        n0d -= 1
-    while n1d > n0d:
-        node1 = node1.parent
-        n1d -= 1
+    if n0d > n1d:
+        node0, node1 = node1, node0
+        n0d, n1d = n1d, n0d
 
     while node0 != node1:
-        node0 = node0.parent
-        node1 = node1.parent
+        if n1d > n0d:
+            node1 = node1.parent
+            n1d -= 1
+        else:
+            node0 = node0.parent
+            node1 = node1.parent
 
     return node0
 
