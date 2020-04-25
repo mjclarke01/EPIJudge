@@ -3,8 +3,17 @@ from test_framework import generic_test
 
 # We use stack and previous node pointer to simulate postorder traversal.
 def postorder_traversal(tree):
-    # TODO - you fill in here.
-    return []
+    def _traverse(root, result):
+        if root.left:
+            _traverse(root.left, result)
+        if root.right:
+            _traverse(root.right, result)
+        result.append(root.data)
+
+    result = []
+    if tree:
+        _traverse(tree, result)
+    return result
 
 
 if __name__ == '__main__':

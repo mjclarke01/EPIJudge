@@ -3,11 +3,40 @@ import functools
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
+from list_node import ListNode
 
 
 def list_pivoting(l, x):
-    # TODO - you fill in here.
-    return None
+    # Pivot around the supplied value, lower go first, higher go last
+    # Must maintain relative order
+    # Hint: do the three regions independently
+    first = ListNode()
+    first_iter = first
+    second = ListNode()
+    second_iter = second
+    third = ListNode()
+    third_iter = third
+
+    while l is not None:
+        if l.data < x:
+            first_iter.next = l
+            first_iter = first_iter.next
+        elif l.data == x:
+            second_iter.next = l
+            second_iter = second_iter.next
+        elif l.data > x:
+            third_iter.next = l
+            third_iter = third_iter.next
+        else:
+            raise Exception("WTF!")
+        l = l.next
+
+    third_iter.next = None
+    # Order is important in case second is empty
+    second_iter.next = third.next
+    first_iter.next = second.next
+
+    return first.next
 
 
 def linked_to_list(l):

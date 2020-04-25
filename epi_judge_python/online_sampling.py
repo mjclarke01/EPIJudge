@@ -5,12 +5,22 @@ from test_framework.random_sequence_checker import (
     binomial_coefficient, check_sequence_is_uniformly_random,
     compute_combination_idx, run_func_with_retries)
 from test_framework.test_utils import enable_executor_hook
+import random
 
 
 # Assumption: there are at least k elements in the stream.
 def online_random_sample(stream, k):
-    # TODO - you fill in here.
-    return []
+    result = []
+    lim = 0
+    for i in stream:
+        if len(result) < k:
+            result.append(i)
+        else:
+            n = random.randint(0, lim)
+            if n < k:
+                result[n] = i
+        lim += 1
+    return result
 
 
 @enable_executor_hook

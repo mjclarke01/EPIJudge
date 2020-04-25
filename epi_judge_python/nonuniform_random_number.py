@@ -5,11 +5,27 @@ import math
 from test_framework import generic_test
 from test_framework.random_sequence_checker import run_func_with_retries
 from test_framework.test_utils import enable_executor_hook
+import random
+import itertools
+import bisect
 
 
 def nonuniform_random_number_generation(values, probabilities):
-    # TODO - you fill in here.
+    r = random.random()
+    total_p = 0
+    for p, v in zip(probabilities, values):
+        total_p += p
+        if r < total_p:
+            return v
     return 0
+
+
+# From the book - cheating bastards!
+def nonuniform_random_number_generation(values, probabilities):
+    probs = list(itertools.accumulate(probabilities))
+    i = bisect.bisect(probs, random.random())
+    return values[i]
+
 
 
 @enable_executor_hook

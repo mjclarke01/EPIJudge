@@ -5,11 +5,25 @@ from test_framework.random_sequence_checker import (
     binomial_coefficient, check_sequence_is_uniformly_random,
     compute_combination_idx, run_func_with_retries)
 from test_framework.test_utils import enable_executor_hook
+from random import randint, sample
 
 
 def random_sampling(k, A):
-    # TODO - you fill in here.
-    return
+    while len(A) > k:
+        n = randint(0, len(A) - 1)
+        A.pop(n)
+
+
+# # Book - weirdly slow
+# def random_sampling(k, A):
+#     for i in range(k):
+#         n = randint(i, len(A) - 1)
+#         A[i], A[n] = A[n], A[i]
+#
+#
+# # Pythonic solution from web
+# def random_sampling(k, A):
+#     A[:] = sample(A, k)
 
 
 @enable_executor_hook

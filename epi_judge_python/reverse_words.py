@@ -6,7 +6,8 @@ from test_framework.test_utils import enable_executor_hook
 
 # Assume s is a string encoded as bytearray.
 def reverse_words(s):
-    # TODO - you fill in here.
+    # Doesn't work with Python 3?
+
     return
 
 
@@ -21,6 +22,7 @@ def reverse_words_wrapper(executor, s):
 
 
 if __name__ == '__main__':
+    print(reverse_words("Bob likes Alice"))
     exit(
         generic_test.generic_test_main("reverse_words.py", 'reverse_words.tsv',
                                        reverse_words_wrapper))
