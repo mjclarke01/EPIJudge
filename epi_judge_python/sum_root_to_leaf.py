@@ -2,21 +2,23 @@ from test_framework import generic_test
 
 
 def sum_root_to_leaf(tree, partial_path_sum=0):
-    def _traverse(root, running_sum, results):
+    def _traverse(root, running_sum, total):
+        if not root:
+            return total
+
         running_sum = (running_sum << 1) + root.data
 
         if not root.left and not root.right:
-            results.append(running_sum)
+            return total + running_sum
 
         if root.left:
-            _traverse(root.left, running_sum, results)
+            total = _traverse(root.left, running_sum, total)
         if root.right:
-            _traverse(root.right, running_sum, results)
+            total = _traverse(root.right, running_sum, total)
 
-    results = []
-    if tree:
-        _traverse(tree, 0, results)
-    return sum(results)
+        return total
+
+    return _traverse(tree, 0, 0)
 
 
 if __name__ == '__main__':
