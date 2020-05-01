@@ -15,6 +15,52 @@ def inorder_traversal(tree):
     return result
 
 
+# Without recursion - my version
+# Better version available on pg 131
+def inorder_traversal(tree):
+    result = []
+    stack = []
+    curr = tree
+    while curr or stack:
+        if curr is None:
+            curr = stack.pop()
+            result.append(curr.data)
+            curr = curr.right
+            continue
+
+        if curr.left:
+            stack.append(curr)
+            curr = curr.left
+        else:
+            # As far left as we can go
+            result.append(curr.data)
+            # So go right
+            curr = curr.right
+
+    return result
+
+
+# Stackless
+def inorder_traversal(tree):
+    result = []
+
+    prev = None
+    while tree:
+        if tree.right and tree.right == prev:
+            prev = tree
+            tree = tree.parent
+        elif not tree.left or tree.left == prev:
+            result.append(tree.data)
+            if tree.right:
+                tree = tree.right
+            else:
+                prev = tree
+                tree = tree.parent
+        else:
+            tree = tree.left
+    return result
+
+
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main("tree_inorder.py", 'tree_inorder.tsv',

@@ -3,16 +3,14 @@ from test_framework import generic_test
 
 def has_path_sum(tree, remaining_weight):
     def _traverse(root, weight):
-        weight -= root.data
-
-        if weight == 0 and root.left is None and root.right is None:
-            return True
+        if not root.left and not root.right:
+            return weight == root.data
 
         if root.left:
-            if _traverse(root.left, weight):
+            if _traverse(root.left, weight - root.data):
                 return True
         if root.right:
-            if _traverse(root.right, weight):
+            if _traverse(root.right, weight - root.data):
                 return True
 
         return False

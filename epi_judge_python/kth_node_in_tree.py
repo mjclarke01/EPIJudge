@@ -13,9 +13,56 @@ class BinaryTreeNode:
         self.size = size
 
 
+# Naive version just to check I understand the problem
 def find_kth_node_binary_tree(tree, k):
-    # TODO - you fill in here.
+    s = []
+
+    while s or tree:
+        if tree:
+            s.append(tree)
+            tree = tree.left
+        else:
+            tree = s.pop()
+            k -= 1
+            if k == 0:
+                return tree
+            tree = tree.right
     return None
+
+
+# divide and conquer
+def find_kth_node_binary_tree(tree, k):
+    s = []
+
+    while s or tree:
+        if tree and tree.size < k:
+            k -= tree.size
+            tree = None
+
+        if tree:
+            s.append(tree)
+            tree = tree.left
+        else:
+            tree = s.pop()
+            k -= 1
+            if k == 0:
+                return tree
+            tree = tree.right
+    return None
+
+
+# Stackless - from the book
+def find_kth_node_binary_tree(tree, k):
+    while tree:
+        left_size = tree.left.size if tree.left else 0
+        if left_size + 1 < k:
+            k -= left_size + 1
+            tree = tree.right
+        elif left_size == k-1:
+            return tree
+        else:
+            tree = tree.left
+
 
 
 @enable_executor_hook
