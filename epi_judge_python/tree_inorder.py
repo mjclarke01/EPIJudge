@@ -40,7 +40,7 @@ def inorder_traversal(tree):
     return result
 
 
-# Stackless
+# Stack-less
 def inorder_traversal(tree):
     result = []
 
@@ -49,15 +49,13 @@ def inorder_traversal(tree):
         if tree.right and tree.right == prev:
             prev = tree
             tree = tree.parent
-        elif not tree.left or tree.left == prev:
-            result.append(tree.data)
-            if tree.right:
-                tree = tree.right
-            else:
-                prev = tree
-                tree = tree.parent
-        else:
+        elif tree.left and tree.left != prev:
             tree = tree.left
+        else:
+            result.append(tree.data)
+            prev = tree
+            tree = tree.right if tree.right else tree.parent
+
     return result
 
 
