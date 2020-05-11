@@ -36,8 +36,8 @@ def inorder_traversal(tree):
             result.append(curr.data)
             # So go right
             curr = curr.right
-
-    return result
+    #
+    # return result
 
 
 # Stack-less

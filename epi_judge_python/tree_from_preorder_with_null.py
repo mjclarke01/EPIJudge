@@ -2,11 +2,22 @@ import functools
 
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
+from binary_tree_node import BinaryTreeNode
 
 
+# Book does it using recursion.
 def reconstruct_preorder(preorder):
-    # TODO - you fill in here.
-    return None
+    stack = []
+    for i in reversed(preorder):
+        if i is None:
+            stack.append(None)
+        else:
+            node = BinaryTreeNode(i)
+            node.left = stack.pop(-1)
+            node.right = stack.pop(-1)
+            stack.append(node)
+
+    return stack[0]
 
 
 @enable_executor_hook

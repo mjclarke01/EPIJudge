@@ -4,6 +4,7 @@ from binary_tree_node import BinaryTreeNode
 
 # pre-order =>  root, left, right
 # in-order => left, root, right
+# Overcomplicated - see book
 def binary_tree_from_preorder_inorder(preorder, inorder):
     if len(preorder) == 0:
         return None

@@ -12,23 +12,33 @@ class BinaryTreeNode:
         self.next = None  # Populates this field.
 
 
+# From the book, I couldn't get anywhere because of some set-up issue.
+# The book version didn't work either so I updated from github.
+# And then it works
 def construct_right_sibling(tree):
-    # TODO - you fill in here.
-    return
+    def populate(start_node):
+        while start_node and start_node.left:
+            start_node.left.next = start_node.right
+            start_node.right.next = start_node.next.left if start_node.next else None
+            start_node = start_node.next
+
+    while tree and tree.left:
+        populate(tree)
+        tree = tree.left
 
 
 def traverse_next(node):
     while node:
         yield node
         node = node.next
-    raise StopIteration
+    return
 
 
 def traverse_left(node):
     while node:
         yield node
         node = node.left
-    raise StopIteration
+    return
 
 
 def clone_tree(original):
@@ -52,6 +62,6 @@ def construct_right_sibling_wrapper(executor, tree):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("tree_right_sibling.py",
+        generic_test.generic_test_main('tree_right_sibling.py',
                                        'tree_right_sibling.tsv',
                                        construct_right_sibling_wrapper))

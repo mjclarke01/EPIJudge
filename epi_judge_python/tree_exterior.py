@@ -6,8 +6,34 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def exterior_binary_tree(tree):
-    # TODO - you fill in here.
-    return []
+    def _traverse(root, result):
+        if not root:
+            return
+        if not root.left and not root.right:
+            results.append(root)
+        if root.left:
+            _traverse(root.left, result)
+        if root.right:
+            _traverse(root.right, result)
+
+    if not tree:
+        return []
+    results = [tree]
+    if tree.left:
+        curr = tree.left
+        while curr.left or curr.right:
+            results.append(curr)
+            curr = curr.left if curr.left else curr.right
+    _traverse(tree.left, results)
+    _traverse(tree.right, results)
+
+    curr = results[-1].parent if tree.right else None
+    while curr:
+        if curr.parent:
+            results.append(curr)
+        curr = curr.parent
+
+    return results
 
 
 def create_output_list(L):
